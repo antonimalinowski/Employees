@@ -25,10 +25,10 @@ public class Main {
             Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
-
         String peopleRegex = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w*)(?:,\\s*\\{(?<details>.*)\\})?\\n";
         Pattern peoplePat = Pattern.compile(peopleRegex);
         Matcher peopleMat = peoplePat.matcher(peopleText);
+
 
         String progRegex = "\\w+=(?<locpd>\\w+)\\,\\w+=(?<yoe>\\w+)\\,\\w+=(?<iq>\\w+)";
         Pattern coderPat = Pattern.compile(progRegex);
@@ -46,20 +46,9 @@ public class Main {
         while (peopleMat.find()) {
             totalSalaries += switch (peopleMat.group("role")) {
                 case "Programmer" -> {
-                    String details = peopleMat.group("details");
-                    Matcher coderMat = coderPat.matcher(details);
-                    int salary;
-                    if (coderMat.find()) {
-                        int locpd = Integer.parseInt(coderMat.group("locpd"));
-                        int yoe = Integer.parseInt(coderMat.group("yoe"));
-                        int iq = Integer.parseInt(coderMat.group("iq"));
-//                        System.out.printf("Programmer loc: %s yoe: %s iq: %s%n", locpd, yoe, iq);
-                        salary = 3000 + locpd * yoe * iq;
-                    } else {
-                        salary = 3000;
-                    }
-                    System.out.format("%s, %s: %s%n", peopleMat.group("lastName"),peopleMat.group("firstName"), NumberFormat.getCurrencyInstance(Locale.US).format(salary));
-                    yield salary;
+                    Programmer programmer = new Programmer(peopleMat.group());
+                    System.out.println(programmer);
+                    yield programmer.getSalary();
                 }
                 case "Manager" -> {
                     String details = peopleMat.group("details");
