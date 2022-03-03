@@ -21,7 +21,7 @@ public class Programmer {
     private final Pattern progPat = Pattern.compile(progRegex);
     private final NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(Locale.US);
 
-    DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
+    private final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
 
     public Programmer(String personText) {
         Matcher peopleMat = peoplePat.matcher(personText);
@@ -44,6 +44,6 @@ public class Programmer {
 
     @Override
     public String toString() {
-        return String.format("%s, %s: %s", lastName, firstName, moneyFormat);
+        return String.format("%s, %s: %s", lastName, firstName, moneyFormat.format(getSalary()));
     }
 }
