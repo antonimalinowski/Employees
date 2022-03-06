@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Manager {
+public class Manager implements Employee {
     private String lastName;
     private String firstName;
     private LocalDate dob;
