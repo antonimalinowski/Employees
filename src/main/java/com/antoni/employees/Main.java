@@ -13,6 +13,7 @@ public class Main {
             Flinstone3, Fred3, 1/1/1900, Programmer, {locpd=2300,yoe=8,iq=105}
             Flinstone4, Fred4, 1/1/1900, Programmer, {locpd=1630,yoe=3,iq=115}
             Flinstone5, Fred5, 1/1/1900, Programmer, {locpd=5,yoe=10,iq=100}
+            Flinstone5, Fred5, 1/1/1900, Programmerzzz, {locpd=5,yoe=10,iq=100}
             Rubble, Barney, 2/2/1905, Manager, {orgSize=300,dr=10}
             Rubble2, Barney2, 2/2/1905, Manager, {orgSize=100,dr=4}
             Rubble3, Barney3, 2/2/1905, Manager, {orgSize=200,dr=2}
@@ -37,7 +38,7 @@ public class Main {
                 case "Manager" -> new Manager(peopleMat.group());
                 case "Analyst" -> new Analyst(peopleMat.group());
                 case "CEO" -> new CEO(peopleMat.group());
-                default -> null;
+                default -> new Employee(peopleMat.group());
             };
             System.out.println(employee.toString());
             totalSalaries += employee.getSalary();
