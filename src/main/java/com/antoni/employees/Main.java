@@ -3,7 +3,6 @@ package com.antoni.employees;
 import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,24 +25,14 @@ public class Main {
             Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
-        String peopleRegex = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w*)(?:,\\s*\\{(?<details>.*)\\})?\\n";
-        Pattern peoplePat = Pattern.compile(peopleRegex);
-        Matcher peopleMat = peoplePat.matcher(peopleText);
+        Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
 
         int totalSalaries = 0;
         Employee employee = null;
         while (peopleMat.find()) {
-            employee = switch (peopleMat.group("role")) {
-                case "Programmer" -> new Programmer(peopleMat.group());
-                case "Manager" -> new Manager(peopleMat.group());
-                case "Analyst" -> new Analyst(peopleMat.group());
-                case "CEO" -> new CEO(peopleMat.group());
-                default -> null;
-            };
-            if (employee != null) {
-                System.out.println(employee.toString());
-                totalSalaries += employee.getSalary();
-            }
+            employee = Employee.createEmployee(peopleMat.group());
+            System.out.println(employee.toString());
+            totalSalaries += employee.getSalary();
         }
         String totalPayout = NumberFormat.getCurrencyInstance(Locale.US).format(totalSalaries);
         System.out.printf("Total payout should be: %s%n", totalPayout);
