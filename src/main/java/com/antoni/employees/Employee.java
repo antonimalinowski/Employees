@@ -7,7 +7,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public abstract class Employee {
+public abstract class Employee implements IEmployee {
     protected final DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("M/d/yyyy");
     private static final String PEOPLE_REGEX = "(?<lastName>\\w+),\\s*(?<firstName>\\w+),\\s*(?<dob>\\d{1,2}/\\d{1,2}/\\d{4}),\\s*(?<role>\\w*)(?:,\\s*\\{(?<details>.*)\\})?\\n";
     protected final NumberFormat moneyFormat = NumberFormat.getCurrencyInstance(Locale.US);
@@ -34,7 +34,7 @@ public abstract class Employee {
     }
 
     // Flinstone5, Wilma5, 3/3/1910, Analyst, {projectCount=9}
-    public static final Employee createEmployee(String employeeText) {
+    public static final IEmployee createEmployee(String employeeText) {
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(employeeText);
         if (peopleMat.find()) {
             return switch (peopleMat.group("role")) {
@@ -42,10 +42,10 @@ public abstract class Employee {
                 case "Manager" -> new Manager(employeeText);
                 case "Analyst" -> new Analyst(employeeText);
                 case "CEO" -> new CEO(employeeText);
-                default -> new DefaultEmployee();
+                default -> () -> 0;
             };
         } else {
-            return new DefaultEmployee();
+            return () -> 0;
         }
     }
 
