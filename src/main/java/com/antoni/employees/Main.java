@@ -38,10 +38,12 @@ public class Main {
                 case "Manager" -> new Manager(peopleMat.group());
                 case "Analyst" -> new Analyst(peopleMat.group());
                 case "CEO" -> new CEO(peopleMat.group());
-                default -> new Employee(peopleMat.group());
+                default -> null;
             };
-            System.out.println(employee.toString());
-            totalSalaries += employee.getSalary();
+            if (employee != null) {
+                System.out.println(employee.toString());
+                totalSalaries += employee.getSalary();
+            }
         }
         String totalPayout = NumberFormat.getCurrencyInstance(Locale.US).format(totalSalaries);
         System.out.printf("Total payout should be: %s%n", totalPayout);
