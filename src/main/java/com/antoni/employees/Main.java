@@ -26,6 +26,7 @@ public class Main {
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
+        Flyer flyer = new CEO("");
 
         int totalSalaries = 0;
         IEmployee employee = null;
