@@ -26,15 +26,27 @@ public class Main {
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
-        Flyer flyer = new CEO("");
-        Programmer coder = new Programmer("");
-        coder.cook("Hamburger");
+//        Flyer flyer = new CEO("");
+//        Programmer coder = new Programmer("");
+//        coder.cook("Hamburger");
 
         int totalSalaries = 0;
         IEmployee employee = null;
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
-            System.out.println(employee.toString());
+            // Programmer prog = (Programmer) employee;
+            if (employee instanceof Programmer prog) {
+                System.out.println(prog.toString() + "; Position: Programmer");
+            } else if (employee instanceof Manager man) {
+                System.out.println(man.toString() + "; Position: Manager");
+            } else if (employee instanceof Analyst analyst) {
+                System.out.println(analyst.toString() + "; Position: Analyst");
+            } else if (employee instanceof CEO ceo) {
+                System.out.println(ceo.toString() + "; Position: CEO");
+            } else {
+                System.out.println("N\\A; Position: N\\A");
+            }
+            // System.out.println(employee.toString());
             totalSalaries += employee.getSalary();
         }
         String totalPayout = NumberFormat.getCurrencyInstance(Locale.US).format(totalSalaries);
