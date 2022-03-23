@@ -1,6 +1,8 @@
 package com.antoni.employees;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 
@@ -26,29 +28,22 @@ public class Main {
             Rubble, Betty, 4/4/1915, CEO, {avgStockPrice=300}
             """;
         Matcher peopleMat = Employee.PEOPLE_PAT.matcher(peopleText);
-//        Flyer flyer = new CEO("");
-//        Programmer coder = new Programmer("");
-//        coder.cook("Hamburger");
 
         int totalSalaries = 0;
         IEmployee employee = null;
+        List<IEmployee> employees = new ArrayList<>();
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
-            // Programmer prog = (Programmer) employee;
-            if (employee instanceof Programmer prog) {
-                System.out.println(prog.toString() + "; Position: Programmer");
-            } else if (employee instanceof Manager man) {
-                System.out.println(man.toString() + "; Position: Manager");
-            } else if (employee instanceof Analyst analyst) {
-                System.out.println(analyst.toString() + "; Position: Analyst");
-            } else if (employee instanceof CEO ceo) {
-                System.out.println(ceo.toString() + "; Position: CEO");
-            } else {
-                System.out.println("N\\A; Position: N\\A");
-            }
-            // System.out.println(employee.toString());
-            totalSalaries += employee.getSalary();
+            employees.add(employee);
+//            System.out.println(employee.toString());
+//            totalSalaries += employee.getSalary();
         }
+
+        for (IEmployee worker : employees) {
+            System.out.println(worker.toString());
+            totalSalaries += worker.getSalary();
+        }
+
         String totalPayout = NumberFormat.getCurrencyInstance(Locale.US).format(totalSalaries);
         System.out.printf("Total payout should be: %s%n", totalPayout);
     }
