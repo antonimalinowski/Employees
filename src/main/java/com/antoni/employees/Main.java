@@ -1,9 +1,7 @@
 package com.antoni.employees;
 
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Matcher;
 
 public class Main {
@@ -31,13 +29,20 @@ public class Main {
 
         int totalSalaries = 0;
         IEmployee employee = null;
-        List<IEmployee> employees = new ArrayList<>();
+        List<IEmployee> employees = new LinkedList<>();
         while (peopleMat.find()) {
             employee = Employee.createEmployee(peopleMat.group());
             employees.add(employee);
 //            System.out.println(employee.toString());
 //            totalSalaries += employee.getSalary();
         }
+
+        List<String> removalNames = new ArrayList<>();
+        removalNames.add("Wilma5");
+        removalNames.add("Barney4");
+        removalNames.add("Fred2");
+
+        removeUndesirables(employees, removalNames);
 
         for (IEmployee worker : employees) {
             System.out.println(worker.toString());
@@ -46,5 +51,16 @@ public class Main {
 
         String totalPayout = NumberFormat.getCurrencyInstance(Locale.US).format(totalSalaries);
         System.out.printf("Total payout should be: %s%n", totalPayout);
+    }
+
+    private static void removeUndesirables(List<IEmployee> employees, List<String> removalNames) {
+        for (Iterator<IEmployee> it = employees.iterator(); it.hasNext();) {
+            IEmployee worker = it.next();
+            if (worker instanceof Employee tmpWorker) {
+                if (removalNames.contains(tmpWorker.firstName)) {
+                    it.remove();
+                }
+            }
+        }
     }
 }
